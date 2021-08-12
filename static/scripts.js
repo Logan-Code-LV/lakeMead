@@ -1,22 +1,26 @@
-document.addEventListener("DOMContentLoaded",() => {
-  document.getElementById("waterLevel").addEventListener("click", async function () {
-    console.log("clicked")
+document.addEventListener("DOMContentLoaded", async function () {
+  var displayData = ""
 
-    var response = await fetch("http://localhost:5500/data", {method:"GET", headers:{"Content-type":"application/json"} })
-    console.log(response)
+  console.log("fetching ...")
+  var response = await fetch("http://localhost:5500/data", {method:"GET", headers:{"Content-type":"application/json"} })
+  var body = await response.json()
 
-    var body = await response.json()
-    console.log(body)
+  var acreFeet = body.value
+  var display = (+acreFeet / 28945000) * 100
+  var x = Math.round(100 * display) / 100
+  displayData = x.toString() + "%"
 
-  //   await fetch("http://localhost:5500/data", {method:"GET", headers:{"Content-type":"application/json"} })
-  //     .then((res) => {
-  //       return res.json()
-  //     })
-  //     .then((data) => {
-  //       console.log(data)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
+  console.log(displayData)
+
+
+  const lakeLevel = document.createElement("h1");
+  const textNode = document.createTextNode(displayData);
+  lakeLevel.appendChild(textNode);
+  
+  const element = document.getElementById("start");
+  element.appendChild(lakeLevel);
+
+  document.getElementById("loader").remove()
+
   })
-})
+

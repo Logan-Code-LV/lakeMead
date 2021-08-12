@@ -1,9 +1,8 @@
+var _ = require('lodash')
+var moment = require('moment')
 const express = require('express')
 const axios = require('axios')
-var cors = require('cors');
 var app = express();
-
-//app.use(cors({origin:"*"}));
 
 app.use("/static", express.static('./static/'));
 
@@ -23,13 +22,22 @@ app.get("/data", (req,res) => {
 			"Access-Control-Allow-Origin": "*"
 		}
 	}
+
 	axios(config)
 	.then((response) => {
-		console.log("AXIOS START")
-		console.log("response: ",response)
-		res.send(response.data)
-		console.log("AXIOS END")
-	})
+		filteredRes = response.data.Series[22].Data
+		var newArray = []
+		_.map(filteredRes, (i) => {
+			if (i !== undefined) {
+				if (i !== null) {
+					if(i.v !== "") {
+						formatDate = new Date(i.t)
+						returnObj = { time:moment(formatDate).valueOf(), value:i.v }
+						newArray.push(returnObj)
+					}}}
+			})
+	res.send(_.last(newArray))
+})
 	.catch((error) => {
 		console.log(error);
 	})
