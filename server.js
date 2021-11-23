@@ -5,13 +5,15 @@ const axios = require('axios')
 var app = express();
 
 app.use("/static", express.static('./static/'));
+app.use("/assets", express.static('./assets/'));
+app.use("/images", express.static('./images/'));
 
 app.listen(5500, () => {
 	console.log("server runnin")
 })
 
 app.get("/", async (req,res) => {
-	res.sendFile('/index.html', { root: __dirname });
+	res.sendFile('/newIndex.html', { root: __dirname });
 })
 
 app.get("/data", (req,res) => {
@@ -22,21 +24,30 @@ app.get("/data", (req,res) => {
 			"Access-Control-Allow-Origin": "*"
 		}
 	}
-
 	axios(config)
 	.then((response) => {
-		filteredRes = response.data.Series[22].Data
-		var newArray = []
-		_.map(filteredRes, (i) => {
-			if (i !== undefined) {
-				if (i !== null) {
-					if(i.v !== "") {
-						formatDate = new Date(i.t)
-						returnObj = { time:moment(formatDate).valueOf(), value:i.v }
-						newArray.push(returnObj)
-					}}}
-			})
-	res.send(_.last(newArray))
+		var body = response.data.Series
+
+		// Find only Lake Mead data
+		var filterData = body.filter(item => item.SiteName === "Lake Mead" && item.DataTypeName === "storage, end of period reading")
+		var readings = filterData[0].Data
+
+		// Filter out future readings (they dont have data yet)
+		var filterData = readings.filter((item) => item.v != "")
+
+		//Conver timestamp to moment time
+		var convertToMoment =  filterData.map(reading => {
+			var time = moment(reading.t).valueOf()
+			return {...reading, time:time}
+		})
+
+		// console.log("convertToMoment: ",convertToMoment)
+		x = Math.max.apply(Math, convertToMoment.map(function(obj) { return obj.time; }))
+
+		// Filter array down to latest timestamp
+		var filterData = convertToMoment.filter((item) => item.time === x)
+
+	res.send(filterData)
 })
 	.catch((error) => {
 		console.log(error);

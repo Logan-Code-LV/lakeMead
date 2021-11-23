@@ -1,26 +1,40 @@
 document.addEventListener("DOMContentLoaded", async function () {
   var displayData = ""
 
-  console.log("fetching ...")
   var response = await fetch("http://localhost:5500/data", {method:"GET", headers:{"Content-type":"application/json"} })
   var body = await response.json()
-
-  var acreFeet = body.value
-  var display = (+acreFeet / 28945000) * 100
-  var x = Math.round(100 * display) / 100
-  displayData = x.toString() + "%"
-
-  console.log(displayData)
+  console.log(body)
 
 
-  const lakeLevel = document.createElement("h1");
-  const textNode = document.createTextNode(displayData);
-  lakeLevel.appendChild(textNode);
+
+
+  var acreFeet = body[0].v
+  if(acreFeet){
+    var display = (+acreFeet / 28945000) * 100
+    var x = Math.round(100 * display) / 100
+    var displayData = "Currently at " + x.toString() + "% capacity"
   
-  const element = document.getElementById("start");
-  element.appendChild(lakeLevel);
+    const lakeLevel = document.createElement("h1");
+    const textNode = document.createTextNode(displayData);
+    lakeLevel.appendChild(textNode);
+    
+    const element = document.getElementById("start");
+    element.appendChild(lakeLevel);
+  
+    document.getElementById("loader").remove()
+  }else{
+    var displayData = "Currently at 30.2% capacity"
+  
+    const lakeLevel = document.createElement("h1");
+    const textNode = document.createTextNode(displayData);
+    lakeLevel.appendChild(textNode);
+    
+    const element = document.getElementById("start");
+    element.appendChild(lakeLevel);
+  
+    document.getElementById("loader").remove()
+  }
 
-  document.getElementById("loader").remove()
 
   })
 
