@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const element = document.getElementById("start");
     element.appendChild(lakeLevel);
   
-    document.getElementById("loader").remove()
+    // document.getElementById("loader").remove()
   }else{
     var displayData = "30.2% capacity"
   
