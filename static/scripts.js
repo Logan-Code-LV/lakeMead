@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
   var displayData = ""
 
-  var response = await fetch("http://localhost:3000/data", {method:"GET", headers:{"Content-type":"application/json"} })
+  var response = await fetch(`/data`, {method:"GET", headers:{"Content-type":"application/json"} })
   var body = await response.json()
   console.log(body)
 
