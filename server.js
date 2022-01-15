@@ -8,7 +8,7 @@ app.use("/static", express.static('./static/'));
 app.use("/assets", express.static('./assets/'));
 app.use("/images", express.static('./images/'));
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.listen(PORT, () => {
 	console.log("server runnin")
@@ -28,6 +28,7 @@ app.get("/data", (req,res) => {
 	}
 	axios(config)
 	.then((response) => {
+		console.log("response: ",response)
 		var body = response.data.Series
 
 		// Find only Lake Mead data
