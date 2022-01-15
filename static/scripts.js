@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   if(acreFeet){
     var display = (+acreFeet / 28945000) * 100
     var x = Math.round(100 * display) / 100
-    var displayData = "Currently at " + x.toString() + "% capacity"
+    var displayData = "Is at " + x.toString() + "% capacity"
   
     const lakeLevel = document.createElement("h1");
     const textNode = document.createTextNode(displayData);
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   
     document.getElementById("loader").remove()
   }else{
-    var displayData = "Currently at 30.2% capacity"
+    var displayData = "30.2% capacity"
   
     const lakeLevel = document.createElement("h1");
     const textNode = document.createTextNode(displayData);

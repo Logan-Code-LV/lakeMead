@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "fuckthis": "nodemon server.js",
+    "me": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
