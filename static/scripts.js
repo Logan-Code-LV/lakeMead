@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
   var displayData = ""
 
-  var response = await fetch("http://localhost:5500/data", {method:"GET", headers:{"Content-type":"application/json"} })
+  var response = await fetch("http://localhost:3000/data", {method:"GET", headers:{"Content-type":"application/json"} })
   var body = await response.json()
   console.log(body)
 
@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const element = document.getElementById("start");
     element.appendChild(lakeLevel);
   
-    // document.getElementById("loader").remove()
   }else{
     var displayData = "30.2% capacity"
   

@@ -8,7 +8,9 @@ app.use("/static", express.static('./static/'));
 app.use("/assets", express.static('./assets/'));
 app.use("/images", express.static('./images/'));
 
-app.listen(5500, () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
 	console.log("server runnin")
 })
 
